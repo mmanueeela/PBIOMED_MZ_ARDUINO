@@ -1,4 +1,4 @@
-// -*- mode: c++ -*-
+// -- mode: c++ --
 
 // --------------------------------------------------------------
 // Jordi Bataller i Mascarell
@@ -15,16 +15,13 @@ class Publicador {
   // ............................................................
 private:
 
-  uint8_t beaconUUID[16] = { 
-	'E', 'P', 'S', 'G', '-', 'G', 'T', 'I', 
-	'-', 'P', 'R', 'O', 'Y', '-', '3', 'A'
-	};
+  uint8_t beaconUUID[16] = { 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16};
 
   // ............................................................
   // ............................................................
 public:
   EmisoraBLE laEmisora {
-	"GTI-3A", //  nombre emisora
+	"yesyes", //  nombre emisora
 	  0x004c, // fabricanteID (Apple)
 	  4 // txPower
 	  };
@@ -58,20 +55,15 @@ public:
 
   // ............................................................
   // ............................................................
-  void publicarCO2( int16_t valorCO2, uint8_t contador,
-					long tiempoEspera ) {
+  void publicarCO2( double valorCO2, uint8_t contador, long tiempoEspera ) {
 
 	//
 	// 1. empezamos anuncio
 	//
-	uint16_t major = (MedicionesID::CO2 << 8) + contador;
-	(*this).laEmisora.emitirAnuncioIBeacon( (*this).beaconUUID, 
-											major,
-											valorCO2, // minor
-											(*this).RSSI // rssi
-									);
-
-	/*
+	uint16_t major = (uint16_t) (valorCO2 * 10);
+	(*this).laEmisora.emitirAnuncioIBeacon( (*this).beaconUUID, major, valorCO2, (*this).RSSI);
+  
+  /*
 	Globales::elPuerto.escribir( "   publicarCO2(): valor=" );
 	Globales::elPuerto.escribir( valorCO2 );
 	Globales::elPuerto.escribir( "   contador=" );
@@ -94,18 +86,14 @@ public:
 
   // ............................................................
   // ............................................................
-  void publicarTemperatura( int16_t valorTemperatura,
-							uint8_t contador, long tiempoEspera ) {
+  void publicarTemperatura( int16_t valorTemperatura, uint8_t contador, long tiempoEspera ) {
 
 	uint16_t major = (MedicionesID::TEMPERATURA << 8) + contador;
-	(*this).laEmisora.emitirAnuncioIBeacon( (*this).beaconUUID, 
-											major,
-											valorTemperatura, // minor
-											(*this).RSSI // rssi
-									);
-	esperar( tiempoEspera );
-
-	(*this).laEmisora.detenerAnuncio();
+	(*this).laEmisora.emitirAnuncioIBeacon( (*this).beaconUUID, major, valorTemperatura, (*this).RSSI);
+	
+  esperar( tiempoEspera );
+  
+  (*this).laEmisora.detenerAnuncio();
   } // ()
 	
 }; // class

@@ -1,4 +1,4 @@
-// -*-c++-*-
+// --c++--
 
 // --------------------------------------------------------------
 //
@@ -17,6 +17,10 @@
 
 #undef min // vaya tela, están definidos en bluefruit.h y  !
 #undef max // colisionan con los de la biblioteca estándar
+
+//definimos los pines para Medidor.h
+#define PIN_VGAS 28
+#define PIN_VREF 29
 
 // --------------------------------------------------------------
 // --------------------------------------------------------------
@@ -47,7 +51,7 @@ namespace Globales {
 
   Publicador elPublicador;
 
-  Medidor elMedidor;
+  Medidor elMedidor= Medidor(PIN_VGAS, PIN_VREF);
 
 }; // namespace
 
@@ -136,22 +140,16 @@ void loop () {
   // 
   // mido y publico
   // 
-  int valorCO2 = elMedidor.medirCO2();
+  int valorCO2 = elMedidor.medirGas();
   
-  elPublicador.publicarCO2( valorCO2,
-							cont,
-							1000 // intervalo de emisión
-							);
+  elPublicador.publicarCO2( valorCO2, cont, 1000 );
   
   // 
   // mido y publico
   // 
   int valorTemperatura = elMedidor.medirTemperatura();
   
-  elPublicador.publicarTemperatura( valorTemperatura, 
-									cont,
-									1000 // intervalo de emisión
-									);
+  elPublicador.publicarTemperatura( valorTemperatura, cont, 10002);
 
   // 
   // prueba para emitir un iBeacon y poner
@@ -170,7 +168,7 @@ void loop () {
   };
 
   // elPublicador.laEmisora.emitirAnuncioIBeaconLibre ( &datos[0], 21 );
-  elPublicador.laEmisora.emitirAnuncioIBeaconLibre ( "MolaMolaMolaMolaMolaM", 21 );
+  elPublicador.laEmisora.emitirAnuncioIBeaconLibre ( "MANUMANUMANUMANUMANUM", 21 );
 
   esperar( 2000 );
 
@@ -179,7 +177,7 @@ void loop () {
   // 
   // 
   // 
-  elPuerto.escribir( "---- loop(): acaba **** " );
+  elPuerto.escribir( "---- loop(): acaba ** " );
   elPuerto.escribir( cont );
   elPuerto.escribir( "\n" );
   
