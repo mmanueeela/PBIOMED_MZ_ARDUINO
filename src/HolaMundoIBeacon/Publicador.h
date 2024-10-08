@@ -21,7 +21,7 @@ private:
   // ............................................................
 public:
   EmisoraBLE laEmisora {
-	"yesyes", //  nombre emisora
+	"ManuelaZazzaro", //  nombre emisora
 	  0x004c, // fabricanteID (Apple)
 	  4 // txPower
 	  };
