@@ -34,6 +34,8 @@ public:
 public:
 
   // ............................................................
+  // @enum MedicionesID
+  // @brief Enum para identificar tipos de mediciones.
   // ............................................................
   enum MedicionesID  {
 	CO2 = 11,
@@ -41,26 +43,27 @@ public:
 	RUIDO = 13
   };
 
-  // ............................................................
-  // Constructor de la clase Publicador.
-  // ............................................................
+  // --------------------------------------------------------------
+  // @brief Constructor de la clase Publicador.
+  // --------------------------------------------------------------
+
   Publicador( ) {
 	// ATENCION: no hacerlo aquí. (*this).laEmisora.encenderEmisora();
 	// Pondremos un método para llamarlo desde el setup() más tarde
   } // ()
 
   // ............................................................
-  // Enciende la emisora para empezar a emitir anuncios.
+  // @brief Enciende la emisora para empezar a emitir anuncios.
   // ............................................................
   void encenderEmisora() {
 	(*this).laEmisora.encenderEmisora();
   } // ()
 
   // ............................................................
-  // Publica una medición de CO2 a través de un anuncio iBeacon.
-  // valorCO2 double: Valor de CO2 a publicar.
-  // contador uint8_t: Contador para identificar la medición.
-  // tiempoEspera long: Tiempo de espera en milisegundos antes de detener el anuncio.
+  // @brief Publica una medición de CO2 a través de un anuncio iBeacon.
+  // @param valorCO2 double: Valor de CO2 a publicar.
+  // @param contador uint8_t: Contador para identificar la medición.
+  // @param tiempoEspera long: Tiempo de espera en milisegundos antes de detener el anuncio.
   // ............................................................
   void publicarCO2( double valorCO2, uint8_t contador, long tiempoEspera ) {
 
@@ -92,10 +95,10 @@ public:
   } // ()
 
   // ............................................................
-  // Publica una medición de temperatura a través de un anuncio iBeacon.
-  // valorTemperatura int16_t: Valor de temperatura a publicar.
-  // contador uint8_t: Contador para identificar la medición.
-  // tiempoEspera long: Tiempo de espera en milisegundos antes de detener el anuncio.
+  // @brief Publica una medición de temperatura a través de un anuncio iBeacon.
+  // @param valorTemperatura int16_t: Valor de temperatura a publicar.
+  // @param contador uint8_t: Contador para identificar la medición.
+  // @param tiempoEspera long: Tiempo de espera en milisegundos antes de detener el anuncio.
   // ............................................................
   void publicarTemperatura( int16_t valorTemperatura, uint8_t contador, long tiempoEspera ) {
 

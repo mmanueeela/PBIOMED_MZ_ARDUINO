@@ -5,7 +5,8 @@
 #include <Arduino.h> // Incluir la librería de Arduino para funciones como analogRead, pinMode, etc.
 
 // ------------------------------------------------------
-// Clase Medidor para medir gas y temperatura
+// @class Medidor
+// @brief Clase Medidor para medir gas y temperatura
 // ------------------------------------------------------
 class Medidor {
 
@@ -16,24 +17,38 @@ private:
     float vref;         // Voltaje de referencia
     float vgas;         // Voltaje del gas
 
-    // Función para convertir valor digital a voltios
+    //---------------------------------------------------------------
+    // @brief Convierte el valor digital a voltios.
+    // @param Vin Valor digital de entrada.
+    // @returns float Voltaje correspondiente al valor digital.
+    //---------------------------------------------------------------
     float digToVolt(int Vin) { 
         return ((Vin * 3.3) / 1024);
     }
 
 public:
+    //---------------------------------------------------------------
+    //@brief Constructor vacío del Medidor.
+    //---------------------------------------------------------------
 
-    //Contructor vacio
     Medidor(){
 
     }
 
-    // Constructor
+    //---------------------------------------------------------------
+    // @brief Constructor de la clase Medidor.
+    // @param pinVgas Pin para leer el voltaje del gas.
+    // @param pinVref Pin para referencia de voltaje.
+    //---------------------------------------------------------------
+
     Medidor(uint8_t pinVgas, uint8_t pinVref)
         : pinVref(pinVref), pinVgas(pinVgas), ppmOzono(0), vref(0), vgas(0) {
     }
 
-    // Inicializa el medidor configurando los pines
+    //---------------------------------------------------------------
+    // @brief Inicializa el medidor configurando los pines.
+    //---------------------------------------------------------------
+
     void iniciarMedidor() {
         vgas = 0;
         vref = 0;
@@ -42,7 +57,11 @@ public:
         pinMode(pinVgas, INPUT);
     }
 
-    // Mide el gas y devuelve el valor de ppm de ozono
+    //---------------------------------------------------------------
+    // @brief Mide el gas y devuelve el valor de ppm de ozono.
+    // @returns double Valor de ppm de ozono.
+    //---------------------------------------------------------------
+
     double medirGas() {
         int Agas = analogRead(pinVgas);
         int Aref = analogRead(pinVref);
@@ -73,8 +92,11 @@ public:
 
         return ppmOzono;
     }
-
-    // Función de ejemplo para medir la temperatura
+    //---------------------------------------------------------------
+    // @brief Función de ejemplo para medir la temperatura.
+    // @returns int Valor de temperatura (ejemplo).
+    //---------------------------------------------------------------
+    
     int medirTemperatura() {
         return -12; // Ejemplo, cambiar según el sensor de temperatura
     }

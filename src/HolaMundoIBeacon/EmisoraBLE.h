@@ -21,7 +21,8 @@
 #include "ServicioEnEmisora.h"
 
 // ----------------------------------------------------------
-// Clase que se encarga de manejar la emisión de anuncios BLE y la gestión de servicios BLE
+// @class EmisoraBLE
+// @brief Clase que se encarga de manejar la emisión de anuncios BLE y la gestión de servicios BLE
 // ----------------------------------------------------------
 class EmisoraBLE {
 private:
@@ -38,7 +39,10 @@ public:
   using CallbackConexionTerminada = void ( uint16_t connHandle, uint8_t reason);
 
   // .........................................................
-  // Constructor de la clase EmisoraBLE.
+  // @brief Constructor de la clase EmisoraBLE.
+  // @param nombreEmisora_ Nombre de la emisora BLE.
+  // @param fabricanteID_ ID del fabricante.
+  // @param txPower_ Potencia de transmisión.
   // .........................................................
   EmisoraBLE( const char * nombreEmisora_, const uint16_t fabricanteID_,
 			  const int8_t txPower_ ) 
@@ -73,6 +77,7 @@ public:
   */
 	
   // .........................................................
+  // @brief Enciende la emisora BLE.
   // .........................................................
   void encenderEmisora() {
 	// Serial.println ( "Bluefruit.begin() " );
@@ -83,7 +88,9 @@ public:
   } // ()
 
   // .........................................................
-  // Enciende la emisora BLE e instala callbacks.
+  // @brief Enciende la emisora BLE e instala callbacks.
+  // @param cbce Callback para conexión establecida.
+  // @param cbct Callback para conexión terminada.
   // .........................................................
   void encenderEmisora( CallbackConexionEstablecida cbce,
 						CallbackConexionTerminada cbct ) {
@@ -96,6 +103,7 @@ public:
   } // ()
 
   // .........................................................
+  // @brief Detiene el anuncio si está en curso.
   // .........................................................
   void detenerAnuncio() {
 
@@ -107,13 +115,19 @@ public:
   }  // ()
   
   // .........................................................
-  // estaAnunciando() -> Boleano
+  // @brief Verifica si está anunciando.
+  // @returns `true` si está anunciando, `false` de lo contrario.
   // .........................................................
   bool estaAnunciando() {
 	return Bluefruit.Advertising.isRunning();
   } // ()
 
   // .........................................................
+  // @brief Emite un anuncio iBeacon.
+  // @param beaconUUID UUID del iBeacon.
+  // @param major Valor major del iBeacon.
+  // @param minor Valor minor del iBeacon.
+  // @param rssi Valor RSSI del iBeacon.
   // .........................................................
   void emitirAnuncioIBeacon( uint8_t * beaconUUID, int16_t major, int16_t minor, uint8_t rssi ) {
 
@@ -129,7 +143,7 @@ public:
 	elBeacon.setManufacturer( (*this).fabricanteID );
 
 	//
-	// parece que esto debe ponerse todo aquí
+	// Configuración del beacon
 	//
 
 	Bluefruit.setTxPower( (*this).txPower );
@@ -137,12 +151,12 @@ public:
 	Bluefruit.ScanResponse.addName(); // para que envíe el nombre de emisora (?!)
 
 	//
-	// pongo el beacon
+	// Establece el beacon
 	//
 	Bluefruit.Advertising.setBeacon( elBeacon );
 
 	//
-	// ? qué valorers poner aquí
+	// Configuración de la publicidad
 	//
 	Bluefruit.Advertising.restartOnDisconnect(true); // no hace falta, pero lo pongo
 	Bluefruit.Advertising.setInterval(100, 100);    // in unit of 0.625 ms
@@ -204,7 +218,10 @@ public:
 	const uint8_t tamanyoCarga = strlen( carga );
   */
 
-  //Emite un anuncio iBeacon con una carga libre.
+ //@brief Emite un anuncio iBeacon con una carga libre.
+ // @param carga Puntero a los datos de carga del beacon.
+ // @param tamanyoCarga Tamaño de la carga.
+  
   void emitirAnuncioIBeaconLibre( const char * carga, const uint8_t tamanyoCarga ) {
 
 	(*this).detenerAnuncio(); 
@@ -225,6 +242,8 @@ public:
 	// hasta ahora habrá, supongo, ya puestos los 5 primeros bytes. Efectivamente.
 	// Falta poner 4 bytes fijos (company ID, beacon type, longitud) y 21 de carga
 	//
+
+  //Creación de la carga del beacon
 	uint8_t restoPrefijoYCarga[4+21] = {
 	  0x4c, 0x00, // companyID 2
 	  0x02, // ibeacon type 1byte
@@ -251,14 +270,14 @@ public:
 								   4+21 );
 
 	//
-	// ? qué valores poner aquí ?
+	// Configuración de la publicidad
 	//
 	Bluefruit.Advertising.restartOnDisconnect(true);
 	Bluefruit.Advertising.setInterval(100, 100);    // in unit of 0.625 ms
 
 	Bluefruit.Advertising.setFastTimeout( 1 );      // number of seconds in fast mode
 	//
-	// empieza el anuncio, 0 = tiempo indefinido (ya lo pararán)
+	// Empieza el anuncio, 0 = tiempo indefinido (ya lo pararán)
 	//
 	Bluefruit.Advertising.start( 0 ); 
 
@@ -266,6 +285,9 @@ public:
   } // ()
 
   // .........................................................
+  // @brief Añade un servicio a la emisora BLE.
+  // @param servicio Referencia al servicio a añadir.
+  // @returns `true` si el servicio fue añadido exitosamente, `false` de lo contrario.
   // .........................................................
   bool anyadirServicio( ServicioEnEmisora & servicio ) {
 
@@ -285,11 +307,21 @@ public:
 
   
   // .........................................................
+  // @brief Añade un servicio junto con sus características a la emisora BLE.
+  // @param servicio Referencia al servicio a añadir.
+  // @returns `true` si el servicio y sus características fueron añadidos exitosamente, `false` de lo contrario.
   // .........................................................
   bool anyadirServicioConSusCaracteristicas( ServicioEnEmisora & servicio ) { 
 	return (*this).anyadirServicio( servicio );
   } // 
 
+  // .........................................................
+  // @brief Añade un servicio y sus características a la emisora BLE.
+  // @tparam T Tipos de las características adicionales.
+  // @param servicio Referencia al servicio a añadir.
+  // @param caracteristica Referencia a la primera característica.
+  // @param restoCaracteristicas Referencias a las características adicionales.
+  // @returns `true` si el servicio y sus características fueron añadidos exitosamente, `false` de lo contrario.
   // .........................................................
   template <typename ... T>
   bool anyadirServicioConSusCaracteristicas( ServicioEnEmisora & servicio,
@@ -302,6 +334,12 @@ public:
 	
   } // ()
 
+  // .........................................................
+  // @brief Añade un servicio, sus características y lo activa.
+  // @tparam T Tipos de las características adicionales.
+  // @param servicio Referencia al servicio a añadir.
+  // @param restoCaracteristicas Referencias a las características adicionales.
+  // @returns `true` si el servicio y sus características fueron añadidos y activados exitosamente, `false` de lo contrario.
   // .........................................................
   template <typename ... T>
   bool anyadirServicioConSusCaracteristicasYActivar( ServicioEnEmisora & servicio,
@@ -317,21 +355,25 @@ public:
   } // ()
 
   // .........................................................
-  // Instala el callback para cuando se establece una conexión.
+  // @brief Instala el callback para cuando se establece una conexión.
+  // @param cb Callback a instalar.
   // .........................................................
   void instalarCallbackConexionEstablecida( CallbackConexionEstablecida cb ) {
 	Bluefruit.Periph.setConnectCallback( cb );
   } // ()
 
   // .........................................................
-  // Instala el callback para cuando se termina una conexión.
+  // @brief Instala el callback para cuando se termina una conexión.
+  // @param cb Callback a instalar.
   // .........................................................
   void instalarCallbackConexionTerminada( CallbackConexionTerminada cb ) {
 	Bluefruit.Periph.setDisconnectCallback( cb );
   } // ()
 
   // .........................................................
-  // Obtiene la conexión BLE correspondiente al manejador de conexión proporcionado
+  // @brief Obtiene la conexión BLE correspondiente al manejador de conexión proporcionado.
+  // @param connHandle Manejador de conexión.
+  // @returns Puntero a la conexión BLE correspondiente.
   // .........................................................
   BLEConnection * getConexion( uint16_t connHandle ) {
 	return Bluefruit.Connection( connHandle );

@@ -9,6 +9,8 @@
 // ----------------------------------------------------------
 
 // ----------------------------------------------------------
+// @brief Espera un tiempo específico.
+// @param tiempo Tiempo en milisegundos que la función debe esperar.
 // ----------------------------------------------------------
 void esperar (long tiempo) {
   delay (tiempo);
@@ -24,7 +26,8 @@ private:
 public:
 
   // .........................................................
-  // Constructor de la clase LED.
+  // @brief Constructor de la clase LED.
+  // @param numero Número del pin del LED.
   // .........................................................
   LED (int numero)
 	: numeroLED (numero), encendido(false)
@@ -34,6 +37,7 @@ public:
   }
 
   // .........................................................
+  // @brief Enciende el LED
   // .........................................................
   void encender () {
 	digitalWrite(numeroLED, HIGH); 
@@ -41,6 +45,7 @@ public:
   }
 
   // .........................................................
+  // @brief Apaga el LED.
   // .........................................................
   void apagar () {
 	  digitalWrite(numeroLED, LOW);
@@ -48,6 +53,7 @@ public:
   }
 
   // .........................................................
+  // @brief Alterna el estado del LED
   // .........................................................
   void alternar () {
 	if (encendido) {
@@ -58,7 +64,8 @@ public:
   } // ()
 
   // .........................................................
-  // Hace que el LED brille durante un tiempo específico.
+  // @brief Hace que el LED brille durante un tiempo específico.
+  // @param tiempo Tiempo en milisegundos que el LED debe brillar.
   // .........................................................
   void brillar (long tiempo) {
 	encender ();

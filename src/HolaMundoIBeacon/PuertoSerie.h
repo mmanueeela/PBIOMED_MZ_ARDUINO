@@ -10,13 +10,15 @@
 #define PUERTO_SERIE_H_INCLUIDO
 
 // ----------------------------------------------------------
-// Clase para manejar la comunicación por puerto serie.
+// @class PuertoSerie
+// @brief Clase para manejar la comunicación por puerto serie.
 // ----------------------------------------------------------
 class PuertoSerie  {
 
 public:
   // .........................................................
-  // Constructor de la clase PuertoSerie.
+  // * @brief Constructor de la clase PuertoSerie.
+  // @param baudios Velocidad en baudios para la comunicación serie.
   // .........................................................
   PuertoSerie (long baudios) {
 	Serial.begin( baudios );
@@ -24,7 +26,7 @@ public:
   } // ()
 
   // .........................................................
-  // Espera un tiempo para asegurar que el puerto serie esté disponible.
+  // @brief Espera un tiempo para asegurar que el puerto serie esté disponible.
   // .........................................................
   void esperarDisponible() {
 
@@ -33,9 +35,9 @@ public:
   } // ()
 
   // .........................................................
-  // Escribe un mensaje a través del puerto serie.
-  // T El tipo de datos del mensaje a escribir.
-  // mensaje T: El mensaje a enviar por el puerto serie.
+  // @brief Escribe un mensaje a través del puerto serie. 
+  // @tparam T El tipo de datos del mensaje a escribir.
+  // @param mensaje El mensaje a enviar por el puerto serie.
   // .........................................................
   template<typename T>
   void escribir (T mensaje) {

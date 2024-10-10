@@ -28,7 +28,8 @@
 #include "PuertoSerie.h"
 
 // -------------------------------------------------------------- 
-//  Espacio de nombres para variables globales de la aplicación.
+// @namespace Globales
+// @brief Espacio de nombres para variables globales de la aplicación.
 // --------------------------------------------------------------
 namespace Globales {
   
@@ -49,8 +50,8 @@ namespace Globales {
 
 
 // --------------------------------------------------------------
-//  Globales
-//  Espacio de nombres para variables globales de la aplicación.
+//  @namespace Globales
+//  @brief Espacio de nombres para variables globales de la aplicación.
 // --------------------------------------------------------------
 namespace Globales {
 
@@ -63,7 +64,7 @@ namespace Globales {
 }; // namespace
 
 // --------------------------------------------------------------
-// Inicializa los componentes de la plaquita.
+// @brief Inicializa los componentes de la plaquita.
 // --------------------------------------------------------------
 void inicializarPlaquita () {
 
@@ -73,7 +74,10 @@ void inicializarPlaquita () {
 
 // --------------------------------------------------------------
 // setup()
-// Configuración inicial de la aplicación.
+// --------------------------------------------------------------
+
+// --------------------------------------------------------------
+// @brief Configuración inicial de la aplicación.
 // --------------------------------------------------------------
 void setup() {
 
@@ -109,7 +113,7 @@ void setup() {
 } // setup ()
 
 // --------------------------------------------------------------
-// Función inline para controlar el LED
+// @brief Función inline para controlar el LED
 // --------------------------------------------------------------
 inline void lucecitas() {
   using namespace Globales;
