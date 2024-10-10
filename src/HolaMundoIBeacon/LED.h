@@ -15,14 +15,16 @@ void esperar (long tiempo) {
 }
 
 // ----------------------------------------------------------
+// Clase para controlar un LED.
 // ----------------------------------------------------------
 class LED {
 private:
-  int numeroLED;
-  bool encendido;
+  int numeroLED; ///< Número del pin del LED
+  bool encendido; ///< Estado del LED (encendido o apagado).
 public:
 
   // .........................................................
+  // Constructor de la clase LED.
   // .........................................................
   LED (int numero)
 	: numeroLED (numero), encendido(false)
@@ -56,6 +58,7 @@ public:
   } // ()
 
   // .........................................................
+  // Hace que el LED brille durante un tiempo específico.
   // .........................................................
   void brillar (long tiempo) {
 	encender ();

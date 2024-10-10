@@ -21,13 +21,14 @@
 #include "ServicioEnEmisora.h"
 
 // ----------------------------------------------------------
+// Clase que se encarga de manejar la emisión de anuncios BLE y la gestión de servicios BLE
 // ----------------------------------------------------------
 class EmisoraBLE {
 private:
 
   const char * nombreEmisora;
   const uint16_t fabricanteID;
-  const int8_t txPower;
+  const int8_t txPower;   ///< Potencia de transmisión.
 
 public:
 
@@ -37,6 +38,7 @@ public:
   using CallbackConexionTerminada = void ( uint16_t connHandle, uint8_t reason);
 
   // .........................................................
+  // Constructor de la clase EmisoraBLE.
   // .........................................................
   EmisoraBLE( const char * nombreEmisora_, const uint16_t fabricanteID_,
 			  const int8_t txPower_ ) 
@@ -81,6 +83,7 @@ public:
   } // ()
 
   // .........................................................
+  // Enciende la emisora BLE e instala callbacks.
   // .........................................................
   void encenderEmisora( CallbackConexionEstablecida cbce,
 						CallbackConexionTerminada cbct ) {
@@ -200,6 +203,8 @@ public:
 
 	const uint8_t tamanyoCarga = strlen( carga );
   */
+
+  //Emite un anuncio iBeacon con una carga libre.
   void emitirAnuncioIBeaconLibre( const char * carga, const uint8_t tamanyoCarga ) {
 
 	(*this).detenerAnuncio(); 
@@ -312,18 +317,21 @@ public:
   } // ()
 
   // .........................................................
+  // Instala el callback para cuando se establece una conexión.
   // .........................................................
   void instalarCallbackConexionEstablecida( CallbackConexionEstablecida cb ) {
 	Bluefruit.Periph.setConnectCallback( cb );
   } // ()
 
   // .........................................................
+  // Instala el callback para cuando se termina una conexión.
   // .........................................................
   void instalarCallbackConexionTerminada( CallbackConexionTerminada cb ) {
 	Bluefruit.Periph.setDisconnectCallback( cb );
   } // ()
 
   // .........................................................
+  // Obtiene la conexión BLE correspondiente al manejador de conexión proporcionado
   // .........................................................
   BLEConnection * getConexion( uint16_t connHandle ) {
 	return Bluefruit.Connection( connHandle );

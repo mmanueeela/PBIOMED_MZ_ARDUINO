@@ -27,12 +27,15 @@
 #include "LED.h"
 #include "PuertoSerie.h"
 
-// --------------------------------------------------------------
+// -------------------------------------------------------------- 
+//  Espacio de nombres para variables globales de la aplicación.
 // --------------------------------------------------------------
 namespace Globales {
   
+  // Creación del objeto LED
   LED elLED ( /* NUMERO DEL PIN LED = */ 7 );
 
+  // Configuración de la comunicación por puerto serie
   PuertoSerie elPuerto ( /* velocidad = */ 115200 ); // 115200 o 9600 o ...
 
   // Serial1 en el ejemplo de Curro creo que es la conexión placa-sensor 
@@ -46,16 +49,21 @@ namespace Globales {
 
 
 // --------------------------------------------------------------
+//  Globales
+//  Espacio de nombres para variables globales de la aplicación.
 // --------------------------------------------------------------
 namespace Globales {
 
+// Creación del objeto Publicador
   Publicador elPublicador;
 
+// Creación del objeto Medidor
   Medidor elMedidor= Medidor(PIN_VGAS, PIN_VREF);
 
 }; // namespace
 
 // --------------------------------------------------------------
+// Inicializa los componentes de la plaquita.
 // --------------------------------------------------------------
 void inicializarPlaquita () {
 
@@ -65,6 +73,7 @@ void inicializarPlaquita () {
 
 // --------------------------------------------------------------
 // setup()
+// Configuración inicial de la aplicación.
 // --------------------------------------------------------------
 void setup() {
 
@@ -100,6 +109,7 @@ void setup() {
 } // setup ()
 
 // --------------------------------------------------------------
+// Función inline para controlar el LED
 // --------------------------------------------------------------
 inline void lucecitas() {
   using namespace Globales;
@@ -116,12 +126,14 @@ inline void lucecitas() {
 
 // --------------------------------------------------------------
 // loop ()
+// Espacio de nombres para variables relacionadas con el loop principal.
 // --------------------------------------------------------------
 namespace Loop {
   uint8_t cont = 0;
 };
 
 // ..............................................................
+//  Bucle principal de la aplicación.
 // ..............................................................
 void loop () {
 
@@ -140,6 +152,7 @@ void loop () {
   // 
   // mido y publico
   // 
+  // Medición y publicación de datos de gas CO2
   int valorCO2 = elMedidor.medirGas();
   
   elPublicador.publicarCO2( valorCO2, cont, 1000 );
@@ -147,6 +160,7 @@ void loop () {
   // 
   // mido y publico
   // 
+  // Medición y publicación de datos de temperatura
   int valorTemperatura = elMedidor.medirTemperatura();
   
   elPublicador.publicarTemperatura( valorTemperatura, cont, 10002);

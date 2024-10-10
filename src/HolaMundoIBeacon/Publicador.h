@@ -8,6 +8,7 @@
 #define PUBLICADOR_H_INCLUIDO
 
 // --------------------------------------------------------------
+// Clase que se encarga de publicar mediciones a través de anuncios iBeacon.
 // --------------------------------------------------------------
 class Publicador {
 
@@ -41,6 +42,7 @@ public:
   };
 
   // ............................................................
+  // Constructor de la clase Publicador.
   // ............................................................
   Publicador( ) {
 	// ATENCION: no hacerlo aquí. (*this).laEmisora.encenderEmisora();
@@ -48,12 +50,17 @@ public:
   } // ()
 
   // ............................................................
+  // Enciende la emisora para empezar a emitir anuncios.
   // ............................................................
   void encenderEmisora() {
 	(*this).laEmisora.encenderEmisora();
   } // ()
 
   // ............................................................
+  // Publica una medición de CO2 a través de un anuncio iBeacon.
+  // valorCO2 double: Valor de CO2 a publicar.
+  // contador uint8_t: Contador para identificar la medición.
+  // tiempoEspera long: Tiempo de espera en milisegundos antes de detener el anuncio.
   // ............................................................
   void publicarCO2( double valorCO2, uint8_t contador, long tiempoEspera ) {
 
@@ -85,6 +92,10 @@ public:
   } // ()
 
   // ............................................................
+  // Publica una medición de temperatura a través de un anuncio iBeacon.
+  // valorTemperatura int16_t: Valor de temperatura a publicar.
+  // contador uint8_t: Contador para identificar la medición.
+  // tiempoEspera long: Tiempo de espera en milisegundos antes de detener el anuncio.
   // ............................................................
   void publicarTemperatura( int16_t valorTemperatura, uint8_t contador, long tiempoEspera ) {
 
